@@ -1,5 +1,5 @@
 --[[ Includes ]]--
-include('sh_shb_config.lua')
+include('../sh_shb_config.lua')
 --[[ Grab the Json ]]--
 function SHB_ServerInfo( sid )
 	local response = ""

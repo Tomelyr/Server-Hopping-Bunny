@@ -13,8 +13,8 @@ SHB.Title = "Server-Hopping-Bunny"
 SHB.IP[1] = "37.120.160.136"
 SHB.Port[1] = "27019"
 SHB.IP[2] = "37.120.160.136"
-SHB.Port[2] = "27019"
+SHB.Port[2] = "27018"
 SHB.IP[3] = "37.120.160.136"
-SHB.Port[3] = "27019"
+SHB.Port[3] = "27017"
 
 SHB.Debug = true //useless, maybe i will build it in later.
