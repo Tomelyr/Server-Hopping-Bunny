@@ -7,9 +7,13 @@ if SHB.Debug then print("start cl") end
 local srvcount = table.Count(SHB.IP)
 
 function SHB_Menu(cmd)
-
+	local tall = 25
+	local spacing = 30
+	for i=1, srvcount do
+		tall = tall + spacing + 80
+	end
 	SHB_Window = vgui.Create("DFrame")
-	SHB_Window:SetSize(600, 300)
+	SHB_Window:SetSize(600, tall)
 	SHB_Window:SetPos(100, 100)
 	SHB_Window:SetTitle("")
 	SHB_Window:SetVisible(true)
@@ -51,39 +55,62 @@ end
 concommand.Add(SHB.OpenCommand, function(ply)
 if SHB.Debug then print("concommand cl") end
 SHB_Menu() 
-PrintTable( SHB_ServerInfo(1) )
 end)
 
 function addServer(x, sid)
 	local srvip = SHB.IP[sid] .. ":" .. SHB.Port[sid]
-	local server = SHB_ServerInfo( sid )
-	
+	local server = {}
+	GetServerInfo(sid, function(call) server = call end)
 	local Panel = vgui.Create( "DPanel", SHB_Window )
 	Panel:SetSize(520, 80)
 	Panel:SetPos(40, 100)
 	Panel:AlignTop(x)
-		/*Panel.Paint = function()
-		draw.SimpleText(server["name"], "shbButton", Panel:GetWide() / 2, 6, theme.Textcolor, TEXT_ALIGN_CENTER)
-	end*/
-	local hostnamebutton = vgui.Create("DButton", Panel)
+	Panel.Paint = function()
+		if server["name"] != nil then
+		 draw.RoundedBox( 0, 0, 0, Panel:GetWide(), Panel:GetTall(), theme.PanelBG )
+		else
+		 draw.RoundedBox( 0, 0, 0, Panel:GetWide(), Panel:GetTall(), Color(155,0,0) )
+		end
+	end
+	local hostnamebutton = vgui.Create("DLabel", Panel)
 	hostnamebutton:SetText("")
 	hostnamebutton:SetSize(550, 75)
-	hostnamebutton:SetPos(0, Panel:GetTall()/2)
+	hostnamebutton:SetPos(0, 10)
 	hostnamebutton.Paint = function()
+	if server["name"] != nil then
 		draw.SimpleText(server["name"], "shbButton", hostnamebutton:GetWide() / 2, 0, Color(0,0,0), TEXT_ALIGN_CENTER)
+	else
+		draw.SimpleText("Offline", "shbButton", hostnamebutton:GetWide() / 2, 0, Color(0,0,0), TEXT_ALIGN_CENTER)
 	end
-
+	end
+	local playcount = vgui.Create("DLabel", Panel)
+	playcount:SetText("")
+	playcount:SetSize(550, 75)
+	playcount:SetPos(0, Panel:GetTall()/2)
+	playcount.Paint = function()
+	if server["name"] != nil then
+		draw.SimpleText(server["players"] .. " / " .. server["maxplayers"] .. " Players on ".. server["map"], "shbButton", 10, 0, Color(0,0,0), TEXT_ALIGN_LEFT)
+	end
+	end
 	local connectbutton = vgui.Create("DButton", Panel)
 	connectbutton:SetText("")
 	connectbutton:SetSize(75, 30)
 	connectbutton:SetPos(425, Panel:GetTall()/2)
 	connectbutton.Paint = function()
+	if server["name"] != nil then
+		draw.RoundedBox(4, 0, 0, connectbutton:GetWide(), connectbutton:GetTall(), theme.PanelButton)
 		draw.SimpleText("Connect", "shbButton", connectbutton:GetWide() / 2, 6, Color(0,0,0), TEXT_ALIGN_CENTER)
+	else
+		draw.SimpleText("Connect", "shbButton", connectbutton:GetWide() / 2, 6, Color(255,0,0), TEXT_ALIGN_CENTER)
+	end
 	end
 	connectbutton.DoClick = function()
+	if server["name"] !=nil then
 		SHB_Window:Close()
 		timer.Simple(1, function()
 			LocalPlayer():ConCommand("connect " .. srvip)
 		end)
 	end
+	end
+
 end

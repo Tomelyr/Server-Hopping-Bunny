@@ -16,5 +16,6 @@ if SHB.Theme == "default" then
 	theme.Header = color["grey72"]
 	theme.Background = color["grey42"]
 	theme.Textcolor = color["antique white"]
-	
+	theme.PanelBG = color["grey80"]
+	theme.PanelButton = color["grey42"]
 end
