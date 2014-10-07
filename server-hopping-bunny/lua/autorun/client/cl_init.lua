@@ -13,7 +13,7 @@ function SHB_Menu(cmd)
 		tall = tall + spacing + 80
 	end
 	SHB_Window = vgui.Create("DFrame")
-	SHB_Window:SetSize(600, tall)
+	SHB_Window:SetSize(600, 300)
 	SHB_Window:SetPos(100, 100)
 	SHB_Window:SetTitle("")
 	SHB_Window:SetVisible(true)
@@ -36,6 +36,10 @@ function SHB_Menu(cmd)
                 ExitButton.DoClick = function()
                         SHB_Window:Close()
                 end
+	local Scrollbar = vgui.Create( "DScrollPanel", SHB_Window )
+	Scrollbar:SetSize( 400, 250 )
+	Scrollbar:SetPos( 50, 50 )
+
 	local PanelLabel = vgui.Create("DLabel", SHB_Window) -- My own title because I wanted to use my own font
     PanelLabel:SetPos(10, 5)
     PanelLabel:SetSize(30, SHB_Window:GetWide())
@@ -60,7 +64,13 @@ end)
 function addServer(x, sid)
 	local srvip = SHB.IP[sid] .. ":" .. SHB.Port[sid]
 	local server = {}
-	GetServerInfo(sid, function(call) server = call end)
+	local mapurl = "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg"
+	GetServerInfo(sid, function(call)
+	server = call 
+	if call["mapurl"] then
+	mapurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/" .. call["map"] .. ".jpg"
+	end
+	end)
 	local Panel = vgui.Create( "DPanel", SHB_Window )
 	Panel:SetSize(520, 80)
 	Panel:SetPos(40, 100)
@@ -83,13 +93,16 @@ function addServer(x, sid)
 		draw.SimpleText("Offline", "shbButton", hostnamebutton:GetWide() / 2, 0, Color(0,0,0), TEXT_ALIGN_CENTER)
 	end
 	end
+	local imghtml = vgui.Create("HTML", Panel)
+	imghtml:SetPos(0,0)
+	imghtml:SetSize(100,100)
 	local playcount = vgui.Create("DLabel", Panel)
 	playcount:SetText("")
 	playcount:SetSize(550, 75)
 	playcount:SetPos(0, Panel:GetTall()/2)
 	playcount.Paint = function()
 	if server["name"] != nil then
-		draw.SimpleText(server["players"] .. " / " .. server["maxplayers"] .. " Players on ".. server["map"], "shbButton", 10, 0, Color(0,0,0), TEXT_ALIGN_LEFT)
+		draw.SimpleText(server["players"] .. " / " .. server["maxplayers"] .. " Players on ".. server["map"], "shbButton", 80, 0, Color(0,0,0), TEXT_ALIGN_LEFT)
 	end
 	end
 	local connectbutton = vgui.Create("DButton", Panel)
@@ -112,5 +125,5 @@ function addServer(x, sid)
 		end)
 	end
 	end
-
+	timer.Simple(0.75, function() imghtml:SetHTML("<img width='63px' height='63px' src='"..mapurl.."'>") end)
 end
