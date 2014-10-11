@@ -10,12 +10,17 @@ function SHB_Menu(cmd)
 	local tall = 75
 	local spacing = 30
 	local tallcount = 0
+	if srvcount >= 3 then
+		tallcount = 3
+	else
+		tallcount = srvcount
+	end
 	
-	for i=1, 3 do
+	for i=1, tallcount do
 		tall = tall + spacing + 80
 	end
 	SHB_Window = vgui.Create("DFrame")
-	SHB_Window:SetSize(600, 420)
+	SHB_Window:SetSize(600, tall)
 	SHB_Window:SetPos(100, 100)
 	SHB_Window:SetTitle("")
 	SHB_Window:SetVisible(true)
@@ -47,7 +52,7 @@ function SHB_Menu(cmd)
     PanelLabel:SetText("Server Hopper")
     PanelLabel:SizeToContents()
 	local x = 60
-	for i=1, 3 do
+	for i=1, tallcount do
 		headeroffset = 20
 		xoffset = 100
 		if SHB.IP[i] != nil then addServer(x, i) end
@@ -70,6 +75,7 @@ function addServer(x, sid)
 	mapurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/" .. call["map"] .. ".jpg"
 	end
 	end)
+
 	local Panel = vgui.Create( "DPanel", PanelTest )
 	Panel:SetSize(520, 80)
 	Panel:SetPos(40, 100)
