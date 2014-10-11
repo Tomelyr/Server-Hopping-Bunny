@@ -5,15 +5,15 @@ include('lib/sh_shb_json.lua')
 if SHB.Debug then print("start cl") end
 
 local srvcount = table.Count(SHB.IP)
-
+local pgc = math.ceil(srvcount/3)
 function SHB_Menu(cmd)
-	local tall = 25
+	local tall = 75
 	local spacing = 30
-	for i=1, srvcount do
+	for i=1, 3 do
 		tall = tall + spacing + 80
 	end
 	SHB_Window = vgui.Create("DFrame")
-	SHB_Window:SetSize(600, 300)
+	SHB_Window:SetSize(600, 420)
 	SHB_Window:SetPos(100, 100)
 	SHB_Window:SetTitle("")
 	SHB_Window:SetVisible(true)
@@ -25,21 +25,18 @@ function SHB_Menu(cmd)
         draw.RoundedBox( 0, 0, 0, SHB_Window:GetWide(), SHB_Window:GetTall(), Color(52, 73, 94, 255) )
         draw.RoundedBox( 0, 0, 0, SHB_Window:GetWide(), 25, Color(44, 62, 80,255) )
 	end
-	                   local ExitButton = vgui.Create( "DButton", SHB_Window )
-                ExitButton:SetText( "X" )
-                ExitButton:SetTextColor( Color(255,255,255,255) )
-                ExitButton:SetPos( SHB_Window:GetWide() - 45, 2 )
-                ExitButton:SetSize( 40, 20 )
-                ExitButton.Paint = function()
-                        draw.RoundedBox( 0, 0, 0, ExitButton:GetWide(), ExitButton:GetTall(), Color(200, 79, 79,255) )
-                end
-                ExitButton.DoClick = function()
-                        SHB_Window:Close()
-                end
-	local Scrollbar = vgui.Create( "DScrollPanel", SHB_Window )
-	Scrollbar:SetSize( 400, 250 )
-	Scrollbar:SetPos( 50, 50 )
-
+	local ExitButton = vgui.Create( "DButton", SHB_Window )
+    ExitButton:SetText( "X" )
+    ExitButton:SetTextColor( Color(255,255,255,255) )
+    ExitButton:SetPos( SHB_Window:GetWide() - 45, 2 )
+    ExitButton:SetSize( 40, 20 )
+    ExitButton.Paint = function()
+        draw.RoundedBox( 0, 0, 0, ExitButton:GetWide(), ExitButton:GetTall(), Color(200, 79, 79,255) )
+    end
+    ExitButton.DoClick = function()
+        SHB_Window:Close()
+    end
+	Mother(1)
 	local PanelLabel = vgui.Create("DLabel", SHB_Window) -- My own title because I wanted to use my own font
     PanelLabel:SetPos(10, 5)
     PanelLabel:SetSize(30, SHB_Window:GetWide())
@@ -47,9 +44,9 @@ function SHB_Menu(cmd)
     PanelLabel:SetFont("shbHeader")
     PanelLabel:SetText("Server Hopper")
     PanelLabel:SizeToContents()
-	local x = 50
-	for i=1, srvcount do
-		headeroffset = 40
+	local x = 60
+	for i=1, 3 do
+		headeroffset = 20
 		xoffset = 100
 		addServer(x, i)
 		x = x + xoffset
@@ -71,7 +68,7 @@ function addServer(x, sid)
 	mapurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/" .. call["map"] .. ".jpg"
 	end
 	end)
-	local Panel = vgui.Create( "DPanel", SHB_Window )
+	local Panel = vgui.Create( "DPanel", PanelTest )
 	Panel:SetSize(520, 80)
 	Panel:SetPos(40, 100)
 	Panel:AlignTop(x)
@@ -125,5 +122,45 @@ function addServer(x, sid)
 		end)
 	end
 	end
-	timer.Simple(0.75, function() imghtml:SetHTML("<img width='63px' height='63px' src='"..mapurl.."'>") end)
+	timer.Simple(0.75, function() if IsValid(imghtml) then imghtml:SetHTML("<img width='63px' height='63px' src='"..mapurl.."'>") end end)
 end
+
+function Mother(page)
+	local index = page * 3 + 1
+	PanelTest = vgui.Create("DPanel", SHB_Window)
+	PanelTest:SetSize(600, 520)
+	PanelTest:SetPos(0, 25)
+	PanelTest.Paint = function()
+		draw.RoundedBox( 0, 0, 0, PanelTest:GetWide(), 0, Color(44, 62, 80,255) )
+	end
+	if page != 1 then PageButton("back",page-1) end
+	if SHB.IP[index] != nil then PageButton("forward",page+1) end
+end
+
+function PageButton(dir, nextpage)
+	local server3 = nextpage * 3
+	local server1 = server3 - 2
+	local name = ""
+	local pos = 0
+	if dir == "back" then name = "<" pos = 220 end
+	if dir == "forward" then name = ">" pos = 305 end
+	PageBack = vgui.Create("DButton", PanelTest)
+	PageBack:SetText("")
+	PageBack:SetSize(75, 30)
+	PageBack:SetPos(pos, 10)
+	PageBack.Paint = function()
+		--draw.RoundedBox(0, 0, 0, PageBack:GetWide(), PageBack:GetTall(), theme.PanelButton)
+		draw.SimpleText(name, "shbPageButton", PageBack:GetWide() / 2, 0, Color(0,0,0), TEXT_ALIGN_CENTER)
+	end
+	PageBack.DoClick = function()
+		PanelTest:Remove()
+		Mother(nextpage)
+		local x = 60
+		for i=server1, server3 do
+			xoffset = 100
+				if SHB.IP[i] != nil then addServer(x, i) end
+			x = x + xoffset
+		end
+	end
+end
+	

@@ -16,5 +16,14 @@ SHB.IP[2] = "37.120.160.136"
 SHB.Port[2] = "27018"
 SHB.IP[3] = "37.120.160.136"
 SHB.Port[3] = "27017"
+SHB.IP[4] = "37.120.160.136"
+SHB.Port[4] = "27017"
+SHB.IP[5] = "37.120.160.136"
+SHB.Port[5] = "27017"
+SHB.IP[6] = "37.120.160.136"
+SHB.Port[6] = "27017"
+SHB.IP[7] = "37.120.160.136"
+SHB.Port[7] = "27017"
+
 
 SHB.Debug = true //useless, maybe i will build it in later.

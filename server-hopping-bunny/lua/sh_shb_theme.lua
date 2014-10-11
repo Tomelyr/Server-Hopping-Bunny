@@ -8,6 +8,7 @@ theme = {}
 if SHB.FontSet == "coolvetica" then
 	surface.CreateFont("shbHeader", {font="coolvetica", size=24, weight=500})
 	surface.CreateFont("shbButton", {font="coolvetica", size=24, weight=250})
+	surface.CreateFont("shbPageButton", {font="coolvetica", size=48, weight=500})
 end
 
 	--[[ Colors ]]--
