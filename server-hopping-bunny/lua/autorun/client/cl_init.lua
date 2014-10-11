@@ -9,6 +9,8 @@ local pgc = math.ceil(srvcount/3)
 function SHB_Menu(cmd)
 	local tall = 75
 	local spacing = 30
+	local tallcount = 0
+	
 	for i=1, 3 do
 		tall = tall + spacing + 80
 	end
@@ -48,7 +50,7 @@ function SHB_Menu(cmd)
 	for i=1, 3 do
 		headeroffset = 20
 		xoffset = 100
-		addServer(x, i)
+		if SHB.IP[i] != nil then addServer(x, i) end
 		x = x + xoffset
 	end
 end
