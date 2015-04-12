@@ -1,23 +1,5 @@
 --[[ Includes ]]--
 include('sh_shb_config.lua')
---[[ Grab the Json ]]--
-/*function SHB_ServerInfo( sid )
-	local response = ""
-	local url = SHB.ScriptURL
-	
-	http.Fetch( url .. "?ip=" .. SHB.IP[sid] .. "&port=" .. SHB.Port[sid],
-	function( body, len, headers, code )
-		response = body
-		json = util.JSONToTable(response)
-			return json
-	end,
-	function( error )
-		json = "error"
-		return json
-	end	)
-	
-end*/
-
 --[[ Ripped and Stripped GSapi ]]--
     local apiurl = SHB.ScriptURL
     local jdec = util.JSONToTable // futile attempt to make things faster
