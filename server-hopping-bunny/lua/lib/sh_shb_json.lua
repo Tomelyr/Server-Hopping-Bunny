@@ -7,8 +7,8 @@ include('sh_shb_config.lua')
 
 local function callbackCheck(code)
 	assert(code~=401,"Authorization error (Is your key valid?)")
-	assert(code~=500,"It seems the steam servers are having a hard time.") 
-	assert(code~=404,"Not found.")
+	assert(code~=500,"Couldn't fetch data. Did you installed cURL and is the config correct?") 
+	assert(code~=404,"API not found.")
 	assert(code~=400,"Bad module request.")
 end
 
