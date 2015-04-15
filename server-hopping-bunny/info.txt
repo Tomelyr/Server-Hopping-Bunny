@@ -1,6 +1,0 @@
-"AddonInfo"
-{
-	"name" "Server Hopping Bunny"
-	"author_name" "Tomelyr"
-	"info" "no info"
-}
