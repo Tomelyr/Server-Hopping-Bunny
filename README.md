@@ -36,4 +36,4 @@ Post an issue on this page.
 - Svenskunganka for finding a missing semicolon and providing the missing map image
 - rejax for some code in the past
 - Freezebug for letting me rip off and butcher an function of GSapi in the past.
-- zergof for revamping the old System and removing a lot of spaghetti code i did.
+- zerfgog for revamping the old System and removing a lot of spaghetti code i did.
